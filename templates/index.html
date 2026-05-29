@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twilio & Green-API AI Broadcaster</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 🧭 GLASSMORPHIC SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-glow"></div>
+                <i class="fa-solid fa-square-poll-horizontal logo-icon"></i>
+                <h2>Broadcaster<span>AI</span></h2>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-simple"></i> Dashboard
+                </a>
+                <a href="#" class="menu-item" data-tab="contacts">
+                    <i class="fa-solid fa-address-book"></i> Contacts Manager
+                </a>
+                <a href="#" class="menu-item" data-tab="broadcasting">
+                    <i class="fa-solid fa-bullhorn"></i> Broadcasting Desk
+                </a>
+                <a href="#" class="menu-item" data-tab="chat">
+                    <i class="fa-solid fa-comments"></i> Live AI Chat
+                </a>
+                <a href="#" class="menu-item" data-tab="settings">
+                    <i class="fa-solid fa-sliders"></i> API Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="pulse-dot green"></span>
+                    <span class="status-text">Server: Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 🖥️ MAIN VIEW CONTENT -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="main-header">
+                <div class="header-title">
+                    <h1 id="tab-title">Overview</h1>
+                    <p id="tab-subtitle">Welcome back, Anurag! Here is what's happening today.</p>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar-glow"></div>
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Anurag" alt="Avatar" class="avatar">
+                    <div class="user-details">
+                        <span class="name">Anurag Soni</span>
+                        <span class="role">Developer</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 📊 TAB 1: OVERVIEW DASHBOARD -->
+            <div class="tab-panel active" id="tab-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="card-glow"></div>
+                        <div class="stat-header">
+                            <i class="fa-solid fa-users"></i>
+                            <span class="stat-change text-green">+2 today</span>
+                        </div>
+                        <h3 id="stat-total-contacts">0</h3>
+                        <p>Total Contacts</p>
+                    </div>
+                    
+                    <div class="stat-card purple">
+                        <div class="card-glow"></div>
+                        <div class="stat-header">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span class="stat-change text-purple">100% success</span>
+                        </div>
+                        <h3 id="stat-total-sent">0</h3>
+                        <p>Broadcasts Sent</p>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="card-glow"></div>
+                        <div class="stat-header">
+                            <i class="fa-solid fa-robot"></i>
+                            <span class="stat-change text-green">Online</span>
+                        </div>
+                        <h3 id="stat-ai-model">Qwen 2.5</h3>
+                        <p>AI Model Mode</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-row">
+                    <!-- Recent Contacts Summary -->
+                    <div class="dashboard-card flex-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-users-viewfinder"></i> Quick Contact List</h3>
+                            <button class="btn btn-sm btn-purple" onclick="switchTab('contacts')">View All</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Tags</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="quick-contacts-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bot Health check card -->
+                    <div class="dashboard-card flex-1">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-heartbeat"></i> Service Status</h3>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item">
+                                <span class="service-name"><i class="fa-brands fa-whatsapp text-green"></i> WhatsApp (Green-API)</span>
+                                <span class="badge badge-green" id="status-green">Linked</span>
+                            </div>
+                            <div class="service-item">
+                                <span class="service-name"><i class="fa-solid fa-envelope text-blue"></i> Twilio SMS & Voice</span>
+                                <span class="badge badge-blue" id="status-twilio">Active</span>
+                            </div>
+                            <div class="service-item">
+                                <span class="service-name"><i class="fa-solid fa-brain text-purple"></i> OpenRouter AI</span>
+                                <span class="badge badge-purple" id="status-openrouter">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📋 TAB 2: CONTACTS MANAGER -->
+            <div class="tab-panel" id="tab-contacts">
+                <div class="dashboard-row">
+                    <!-- Contacts table -->
+                    <div class="dashboard-card flex-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-address-book"></i> Contacts Database</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Tags</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="full-contacts-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Add Contact Card -->
+                    <div class="dashboard-card flex-1">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-user-plus"></i> Add New Contact</h3>
+                        </div>
+                        <form id="add-contact-form" class="premium-form">
+                            <div class="form-group">
+                                <label for="contact-name">Full Name</label>
+                                <input type="text" id="contact-name" placeholder="E.g., Amit Kumar" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-phone">Phone Number (with country code)</label>
+                                <input type="text" id="contact-phone" placeholder="E.g., +917414879104" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-tags">Tags (comma-separated)</label>
+                                <input type="text" id="contact-tags" placeholder="E.g., family, urgent">
+                            </div>
+                            <button type="submit" class="btn btn-purple btn-full">
+                                <i class="fa-solid fa-user-check"></i> Add Contact
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📣 TAB 3: BROADCASTING DESK -->
+            <div class="tab-panel" id="tab-broadcasting">
+                <div class="dashboard-row">
+                    <div class="dashboard-card flex-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-paper-plane"></i> Launch Broadcast</h3>
+                        </div>
+                        <form id="broadcast-form" class="premium-form">
+                            <div class="form-group">
+                                <label for="broadcast-tag">Select Filter Tag</label>
+                                <select id="broadcast-tag" class="premium-select" required>
+                                    <option value="">-- Choose Tag --</option>
+                                    <!-- Dynamic Tags -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Broadcast Method</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="broadcast-method" value="sms" checked>
+                                        <div class="radio-btn blue">
+                                            <i class="fa-solid fa-envelope"></i> SMS (Twilio)
+                                        </div>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="broadcast-method" value="call">
+                                        <div class="radio-btn purple">
+                                            <i class="fa-solid fa-phone"></i> Call (Twilio)
+                                        </div>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="broadcast-method" value="whatsapp">
+                                        <div class="radio-btn green">
+                                            <i class="fa-brands fa-whatsapp"></i> WhatsApp (Personal)
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="broadcast-message">Message Template (Use <code>{name}</code> for personalization)</label>
+                                <textarea id="broadcast-message" rows="5" placeholder="Hey {name}! Hope you are doing great. Check out our dashboard!" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-green btn-full" id="btn-launch-broadcast">
+                                <i class="fa-solid fa-rocket"></i> Launch Broadcast
+                            </button>
+                        </form>
+
+                        <!-- Progress indicator -->
+                        <div class="broadcast-progress-container hidden" id="progress-box">
+                            <div class="progress-info">
+                                <span id="progress-status">Preparing broadcast...</span>
+                                <span id="progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template Info Card -->
+                    <div class="dashboard-card flex-1">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-lightbulb"></i> Pro Tips</h3>
+                        </div>
+                        <div class="tips-content">
+                            <p><strong>Personalized Variables:</strong></p>
+                            <p class="text-secondary text-sm">Write <code>{name}</code> in your template, and the system dynamically swaps it with each contact's name!</p>
+                            <div class="preview-box">
+                                <p class="text-sm"><strong>Template:</strong> "Hey {name}!"</p>
+                                <p class="text-sm text-green"><strong>WhatsApp Output:</strong> "Hey Amit!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 💬 TAB 4: LIVE AI CHAT MONITOR -->
+            <div class="tab-panel" id="tab-chat">
+                <div class="chat-dashboard-container">
+                    <div class="chat-box-card">
+                        <div class="chat-header-bar">
+                            <div class="chat-header-info">
+                                <div class="status-indicator">
+                                    <span class="pulse-dot green"></span>
+                                    <span class="status-text">AI active</span>
+                                </div>
+                                <h3>Live Chat History</h3>
+                            </div>
+                            <button class="btn btn-sm btn-outline" id="btn-clear-logs"><i class="fa-solid fa-trash"></i> Clear Logs</button>
+                        </div>
+
+                        <!-- Chat screen -->
+                        <div class="chat-messages-container" id="chat-messages-body">
+                            <!-- Messages generated dynamically -->
+                            <div class="chat-placeholder">
+                                <i class="fa-solid fa-comments text-purple"></i>
+                                <p>No real-time chats captured yet.</p>
+                                <p class="text-xs text-secondary">Incoming messages from linked WhatsApp and Qwen3 responses will appear here instantly!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⚙️ TAB 5: API SETTINGS PANEL -->
+            <div class="tab-panel" id="tab-settings">
+                <div class="dashboard-row">
+                    <div class="dashboard-card flex-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-sliders"></i> Edit Credentials & Configuration</h3>
+                        </div>
+                        <form id="settings-form" class="premium-form">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="set-green-id">Green-API IdInstance</label>
+                                    <input type="text" id="set-green-id" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="set-green-token">Green-API ApiTokenInstance</label>
+                                    <input type="password" id="set-green-token" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="set-twilio-sid">Twilio Account SID</label>
+                                    <input type="text" id="set-twilio-sid">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="set-twilio-token">Twilio Auth Token</label>
+                                    <input type="password" id="set-twilio-token">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="set-twilio-phone">Twilio Voice Phone Number</label>
+                                    <input type="text" id="set-twilio-phone">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="set-openrouter-key">OpenRouter API Key</label>
+                                    <input type="password" id="set-openrouter-key" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="set-openrouter-model">OpenRouter LLM Model</label>
+                                <input type="text" id="set-openrouter-model" placeholder="E.g., qwen/qwen3-32b" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-purple btn-full">
+                                <i class="fa-solid fa-save"></i> Save Settings
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
